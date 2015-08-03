@@ -1,1 +1,2 @@
-class Particle
+class Particle extends THREE.Mesh
+	constructor: ->

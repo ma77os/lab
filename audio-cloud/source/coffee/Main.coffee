@@ -1,4 +1,4 @@
-AUDIO_URL = "http://ma77os.com/paradise_circus.mp3"
+AUDIO_URL = "music/paradise_circus.mp3"
 
 modes = ["cubic", "conic"]
 themes = {
@@ -87,7 +87,7 @@ initGUI = ->
     resize value
 
 initAudio = ->
-  context = new webkitAudioContext()
+  context = new (AudioContext || webkitAudioContext)()
   analyser = context.createAnalyser()
   # analyser.smoothingTimeConstant = 0.5
 
