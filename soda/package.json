@@ -1,0 +1,33 @@
+{
+  "name": "soda",
+  "version": "1.0.0",
+  "description": "soda",
+  "main": "Gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^1.5.5",
+    "browserify": "^8.1.0",
+    "coffeeify": "^1.0.0",
+    "gulp": "^3.8.8",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.4.3",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-sass": "^2.0.1",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.6.0"
+  },
+  "browserify": {
+    "transform": [
+      "coffeeify"
+    ]
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ma77os",
+  "license": "ISC"
+}
