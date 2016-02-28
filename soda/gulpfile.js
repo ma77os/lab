@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
 	compass = require('gulp-compass'),
-	browserSync = require('browser-sync'),
 	concat = require('gulp-concat'),
 	browserify = require('browserify'),
 	watchify = require('watchify'),
@@ -11,7 +10,7 @@ var gulp = require('gulp'),
 var PATH = {
     app:
     {
-        root: './app',
+        root: '.',
         source:{},
         public:{}
     },
@@ -31,10 +30,10 @@ PATH.app.source = {
 
 PATH.app.public = {
 	root: PATH.app.root + '/public',
-	css: PATH.app.root + '/public/assets/css',
-	js: PATH.app.root + '/public/assets/js',
-	libs: PATH.app.root + '/public/assets/js/libs',
-	img: PATH.app.root + '/public/assets/img'
+	css: PATH.app.root + '/public/css',
+	js: PATH.app.root + '/public/js',
+	libs: PATH.app.root + '/public/js/libs',
+	img: PATH.app.root + '/public/img'
 }
 
 var MATCHES = {
@@ -48,20 +47,19 @@ var MATCHES = {
 var USE_COFFEESCRIPT = true;
 // bundles formados pelo browserify
 var BUNDLES = [
-	'main',
-	'carousel'
+	'main'
 ]
 
 /* ---------- ESTRUTURA DE DEV ---------- */
 gulp.task('browserify', function(){
 
-	for (var i = 0; i < BUNDLES.length; i++){
+	for (var i = 0; i < BUNDLES.length; i+=1) {
 
 		var folders = BUNDLES[i].split('/');
 		var filename,
 			path = "/";
 
-		if (folders.length == 0){
+		if (folders.length === 0){
 			return;
 		}
 		else if (folders.length == 1){
@@ -103,10 +101,7 @@ gulp.task('browserify', function(){
 		}
 
 		bundler.on('update', bundle)
-		var stream = bundle()
-		// reload after last bundle
-		if (i == BUNDLES.length-1)
-			stream.pipe(browserSync.reload({stream: true}));
+		bundle()
 	}
 });
 
@@ -114,8 +109,7 @@ gulp.task('concatLibs', function(){
 	gulp.src([PATH.app.source.libs + MATCHES.js], {base: PATH.app.source.libs})
 		.pipe(concat('libs.js'))
 		.on('error', handleErrors)
-		.pipe(gulp.dest(PATH.app.public.libs))
-		.pipe(browserSync.reload({stream: true}));
+		.pipe(gulp.dest(PATH.app.public.libs));
 })
 
 gulp.task('compass', function (){
@@ -126,36 +120,15 @@ gulp.task('compass', function (){
 			image: PATH.app.public.img
 		}))
 		.on('error', handleErrors)
-        .pipe(gulp.dest(PATH.app.public.css))
-		.pipe(browserSync.reload({stream: true}));
+    .pipe(gulp.dest(PATH.app.public.css));
 });
 
 gulp.task('watch', function (){
-	gulp.watch(PATH.app.source.sass + MATCHES.sass, ['compass']);
+	//gulp.watch(PATH.app.source.sass + MATCHES.sass, ['compass']);
 	gulp.watch(PATH.app.source.js + MATCHES.js, ['browserify']);
 	gulp.watch(PATH.app.source.coffee + MATCHES.coffee, ['browserify']);
-	gulp.watch(PATH.app.source.libs + MATCHES.js, ['concatLibs']);
-	gulp.watch(PATH.app.public.root + MATCHES.html, ['reload']);
+	//gulp.watch(PATH.app.source.libs + MATCHES.js, ['concatLibs']);
 });
-
-gulp.task('reload', function (){
-	browserSync.reload();
-});
-
-gulp.task('browser-sync', ['concatLibs', 'browserify', 'compass'], function(){
-	browserSync({
-		browser: 'chrome',
-		open: true,
-		port: 3000,
-		logPrefix : 'tam-macro-temas',
-		notify: true, // Notificação de popup no Browser para saber se houve um reload.
-		server: {
-			baseDir: PATH.app.public.root
-		}
-	});
-});
-
-
 
 function handleErrors (){
 	var args = Array.prototype.slice.call(arguments);
@@ -171,4 +144,4 @@ function handleErrors (){
 
 // TODO: falta prod
 
-gulp.task('default',  ['browser-sync', 'watch']);
+gulp.task('default',  ['browserify','watch']);

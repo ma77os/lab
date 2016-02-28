@@ -1,4 +1,8 @@
+Particle = require './assets/Particle'
+
 class World
+	TOTAL_PARTICLES: 50
+	
 	constructor: ->
 		@setup()
 		@createElements()
@@ -6,23 +10,58 @@ class World
 
 	setup: ->
 		@scene = new THREE.Scene
-		@camera = new THREE.PerspectiveCamera 75, window.innerWidth / window.innerHeight, 0.1, 1000
 		@renderer = new THREE.WebGLRenderer
+		@renderer.setPixelRatio window.devicePixelRatio
+		@renderer.shadowMapEnabled = true
+		@renderer.shadowMapType = THREE.PCFSoftShadowMap
 		@renderer.setSize window.innerWidth, window.innerHeight
+		
+		@camera = new THREE.PerspectiveCamera 45, window.innerWidth / window.innerHeight, 1, 2000
+		@camera.position.z = 50
+		
+# 		ambient = new THREE.AmbientLight 0x333333 
+# 		@scene.add ambient
+		
+# 		directionalLight = new THREE.DirectionalLight 0xFFFFFF
+# 		directionalLight.position.set 0, 0, 1 
+# 		@scene.add directionalLight
+		
+		spotLight = new THREE.SpotLight(0xffffff, 1);
+		spotLight.position.set 0, 0, 20 
+		spotLight.castShadow = true;
+		spotLight.shadowDarkness  = 0.7;
+		spotLight.shadowMapWidth = 1024;
+		spotLight.shadowMapHeight = 1024;
+		@scene.add(spotLight);
+		
+# 		spotLightHelper = new THREE.SpotLightHelper spotLight, 1
+# 		@scene.add spotLightHelper 
 
 		document.body.appendChild @renderer.domElement
 
 	createElements:->
-		geometry = new THREE.BoxGeometry( 1, 1, 1 )
-		material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
-		@cube = new THREE.Mesh( geometry, material )
 		
-		@scene.add( @cube )
-		@camera.position.z = 5
+		@container = new THREE.Mesh()
+		@scene.add( @container )
+		
+		@particles = []
+		
+		for i in [0..@TOTAL_PARTICLES]
+			@particle = new Particle()
+			@particle.position.x = Math.random()*20 - 10
+			@particle.position.y = Math.random()*20 - 10
+			@particle.position.z = Math.random()*20 - 10
+			
+
+			@container.add( @particle )
 
 	render: ->
 		requestAnimationFrame(@render.bind(this))
 
-		@cube.rotation.y+=.02
+		@container.rotation.y+=.01
+		@container.rotation.x+=.01
 
 		@renderer.render(@scene, @camera)
+		
+		
+	module.exports = World
