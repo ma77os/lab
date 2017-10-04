@@ -11,28 +11,6 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/public\/img\/b1.png": {
-		"fileType": 32768,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 1577,
-		"inputAbbreviatedPath": "\/public\/img\/b1.png",
-		"outputAbbreviatedPath": "\/public\/img\/b1.png",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/public\/img\/b4.png": {
-		"fileType": 32768,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 1524,
-		"inputAbbreviatedPath": "\/public\/img\/b4.png",
-		"outputAbbreviatedPath": "\/public\/img\/b4.png",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
 	"\/public\/index.html": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -41,6 +19,17 @@
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
+		},
+	"\/public\/js\/libs\/three.min.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/public\/js\/libs\/three.min.js",
+		"outputAbbreviatedPath": "\/public\/js\/libs\/min\/three.min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
 		},
 	"\/public\/js\/main.js": {
 		"fileType": 64,
@@ -53,16 +42,42 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/source\/coffee\/Main.coffee": {
+	"\/source\/coffee\/assets\/Particle.coffee": {
+		"createSourceMap": 0,
+		"fileType": 32,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/source\/coffee\/assets\/Particle.coffee",
+		"minifyOutput": 1,
+		"outputAbbreviatedPath": "\/source\/coffee\/assets\/Particle.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"syntaxCheckerStyle": 1
+		},
+	"\/source\/coffee\/main.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
 		"ignore": 0,
 		"ignoreWasSetByUser": 1,
-		"inputAbbreviatedPath": "\/source\/coffee\/Main.coffee",
-		"minifyOutput": 0,
+		"inputAbbreviatedPath": "\/source\/coffee\/main.coffee",
+		"minifyOutput": 1,
 		"outputAbbreviatedPath": "\/public\/js\/main.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
+		"outputStyle": 0,
+		"syntaxCheckerStyle": 1
+		},
+	"\/source\/coffee\/World.coffee": {
+		"createSourceMap": 0,
+		"fileType": 32,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/source\/coffee\/World.coffee",
+		"minifyOutput": 1,
+		"outputAbbreviatedPath": "\/source\/coffee\/World.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"syntaxCheckerStyle": 1
 		},
@@ -85,32 +100,35 @@
 		"strictImports": 0,
 		"strictMath": 0,
 		"strictUnits": 0
-		},
-	"\/thumb.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 272978,
-		"inputAbbreviatedPath": "\/thumb.jpg",
-		"outputAbbreviatedPath": "\/thumb.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
 		}
 	},
 "hooks": [
 	],
 "lastSavedByUser": "Andre Mattos",
 "manualImportLinks": {
+	"\/source\/coffee\/main.coffee": [
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/source\/coffee\/assets\/Particle.coffee",
+			"position": 0,
+			"type": 0
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/source\/coffee\/World.coffee",
+			"position": 1,
+			"type": 0
+			}
+		]
 	},
 "projectAttributes": {
 	"bowerAbbreviatedPath": "",
-	"displayValue": "audio-cloud",
-	"displayValueWasSetByUser": 1,
+	"displayValue": "soda",
+	"displayValueWasSetByUser": 0,
 	"iconImageName": "pencil_gray"
 	},
 "projectSettings": {
-	"alwaysUseExternalServer": 0,
+	"alwaysUseExternalServer": 1,
 	"animateCSSInjections": 1,
 	"autoApplyPSLanguageSettingsStyle": 0,
 	"autoprefixerBrowserString": "> 1%, last 2 versions, ff 17, opera 12.1",
@@ -153,8 +171,8 @@
 			"flagValue": -1
 			},
 		"indentation": {
-			"active": 1,
-			"flagValue": 2
+			"active": 0,
+			"flagValue": 4
 			},
 		"line_endings": {
 			"active": 0,
@@ -189,7 +207,7 @@
 			"flagValue": -1
 			},
 		"no_implicit_braces": {
-			"active": 1,
+			"active": 0,
 			"flagValue": -1
 			},
 		"no_implicit_parens": {
@@ -217,7 +235,7 @@
 			"flagValue": -1
 			},
 		"no_tabs": {
-			"active": 1,
+			"active": 0,
 			"flagValue": -1
 			},
 		"no_this": {
@@ -264,8 +282,8 @@
 	"coffeeMinifyOutput": 1,
 	"coffeeOutputStyle": 0,
 	"coffeeSyntaxCheckerStyle": 1,
-	"externalServerAddress": "192.168.1.6",
-	"externalServerPreviewPathAddition": "\/_LAB\/html\/audio-cloud\/public\/",
+	"externalServerAddress": "http:\/\/localhost\/",
+	"externalServerPreviewPathAddition": "\/OneDrive\/_LAB\/soda\/public",
 	"genericWebpageFileExtensionsString": "html, htm, shtml, shtm, xhtml, php, jsp, asp, aspx, erb, ctp",
 	"hamlAutoOutputPathEnabled": 1,
 	"hamlAutoOutputPathFilenamePattern": "*.html",
@@ -693,7 +711,7 @@
 	"markdownProcessHTML": 0,
 	"markdownRandomFootnoteNumbers": 0,
 	"markdownUseCompatibilityMode": 0,
-	"reloadFileURLs": 1,
+	"reloadFileURLs": 0,
 	"sassAutoOutputPathEnabled": 1,
 	"sassAutoOutputPathFilenamePattern": "*.css",
 	"sassAutoOutputPathRelativePath": "..\/css",
@@ -707,7 +725,7 @@
 	"sassUseLibsass": 0,
 	"shouldRunAutoprefixer": 0,
 	"shouldRunBless": 0,
-	"skippedItemsString": "_cache, logs, \/public\/js\/libs, _logs, cache, .git, log, .svn, .hg",
+	"skippedItemsString": ".svn, .git, .hg, log, _logs, _cache, cache, logs",
 	"slimAutoOutputPathEnabled": 1,
 	"slimAutoOutputPathFilenamePattern": "*.html",
 	"slimAutoOutputPathRelativePath": "",
@@ -911,7 +929,7 @@
 			}
 		},
 	"uglifyReservedNamesString": "$",
-	"websiteRelativeRoot": "\/public"
+	"websiteRelativeRoot": ""
 	},
 "settingsFileVersion": "2"
 }

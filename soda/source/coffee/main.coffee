@@ -1,7 +1,6 @@
-World = require './World'
-
 class Main
 	constructor: ->
+		console.log("HI!!")
 		new World
 	
 
