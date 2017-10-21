@@ -1,14 +1,54 @@
 class Particle extends THREE.Mesh{
 	constructor (){
-		let geometry = new THREE.BoxGeometry(2, 2, 2);
-		let material = new THREE.MeshLambertMaterial({color: 0xffffff});
+		super();
+
+		this.add(this.circle());
 		
-		super(geometry, material);
-		
-		// this.castShadow = true;
-		this.receiveShadow  = true;
-		
-		this.rotation.y = Math.random() * Math.PI*2
+		// this.rotation.y = Math.random() * Math.PI*2
+	}
+
+	triangle(){
+		let shape = new THREE.Shape();
+		shape.moveTo(0, 5);
+		shape.lineTo(-5, -5);
+		shape.lineTo(5, -5);
+		shape.lineTo(0, 5);
+
+		let geometry = new THREE.ShapeGeometry(shape);
+		let material = new THREE.MeshBasicMaterial({color:0xffffff});
+
+		return new THREE.Mesh(geometry, material);
+	}
+
+	square(){
+		let shape = new THREE.Shape();
+		shape.moveTo(-5, -5);
+		shape.lineTo(5, -5);
+		shape.lineTo(5, 5);
+		shape.lineTo(0, 5);
+		shape.lineTo(-5, 5);
+
+		let geometry = new THREE.ShapeGeometry(shape);
+		let material = new THREE.MeshBasicMaterial({color:0xffffff});
+
+		return new THREE.Mesh(geometry, material);
+	}
+
+	circle(){
+		let geometry = new THREE.CircleGeometry(5, 32);
+		let material = new THREE.MeshBasicMaterial({color:0xffffff});
+		return new THREE.Mesh(geometry, material);
+	}
+
+	line(){
+
+		let geometry = new THREE.Geometry();
+		let material = new THREE.LineBasicMaterial({color: 0xffffff});
+
+		geometry.vertices.push(new THREE.Vector3(-5, 0, 0));
+		geometry.vertices.push(new THREE.Vector3(5, 0, 0));
+
+		return new THREE.Line(geometry, material)
 	}
 
 }

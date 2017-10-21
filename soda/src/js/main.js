@@ -1,10 +1,7 @@
 const World = require('./World');
 
-class Main{
-	constructor(){
-		new World();
-	}
+function init(){
+	new World();
 }
-	
 
-new Main();
+init();
