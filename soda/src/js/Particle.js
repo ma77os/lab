@@ -2,7 +2,7 @@ class Particle extends THREE.Mesh{
 	constructor (){
 		super();
 
-		this.add(this.cross());
+		this.add(this.triangle());
 		
 		// this.rotation.y = Math.random() * Math.PI*2
 	}
@@ -14,7 +14,7 @@ class Particle extends THREE.Mesh{
 		shape.lineTo(5, -5);
 		shape.lineTo(0, 5);
 
-		let geometry = new THREE.ShapeGeometry(shape);
+		let geometry = new THREE.ShapeBufferGeometry(shape);
 		let material = new THREE.MeshBasicMaterial({color:0xffffff});
 
 		return new THREE.Mesh(geometry, material);
@@ -28,7 +28,7 @@ class Particle extends THREE.Mesh{
 		shape.lineTo(0, 5);
 		shape.lineTo(-5, 5);
 
-		let geometry = new THREE.ShapeGeometry(shape);
+		let geometry = new THREE.ShapeBufferGeometry(shape);
 		let material = new THREE.MeshBasicMaterial({color:0xffffff});
 
 		return new THREE.Mesh(geometry, material);
@@ -53,7 +53,7 @@ class Particle extends THREE.Mesh{
 		shape.lineTo(-tHalf, -tHalf);
 		shape.moveTo(-tHalf, -sHalf);
 
-		let geometry = new THREE.ShapeGeometry(shape);
+		let geometry = new THREE.ShapeBufferGeometry(shape);
 		let material = new THREE.MeshBasicMaterial({color:0xffffff});
 
 		return new THREE.Mesh(geometry, material);

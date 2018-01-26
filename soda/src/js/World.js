@@ -3,7 +3,7 @@ const Particle = require('./Particle');
 class World{
 	
 	constructor(){
-		this.TOTAL_PARTICLES = 50;
+		this.TOTAL_PARTICLES = 500;
 
 		this.setup();
 		this.createElements();
