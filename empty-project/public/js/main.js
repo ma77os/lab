@@ -1,1 +1,0 @@
-(function(){var n,t;t=function(){function n(){}return n}(),new(n=function(){function n(){}return n}())}).call(this);

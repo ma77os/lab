@@ -1,4 +1,0 @@
-class Main
-	
-
-new Main
