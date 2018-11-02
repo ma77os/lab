@@ -273,7 +273,15 @@
     float f = abs(cos(angle));
     h *= pow(f, 1.5 + ticknessOffset);
     
+    // water
+    /*if(h < 0.02){
+      float am = 8.0;
+      h += cnoise(vec3(noiseIn.x*am, noiseIn.y*am + t*4.0, noiseIn.z*am)) * 0.01;
+    }*/
+
     vDisplace = h;
+    
+
     h*=maxHeight;
     
     #include <uv_vertex>
