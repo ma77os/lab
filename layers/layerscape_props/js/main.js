@@ -5,6 +5,7 @@ var isInteractive = false;
 var useSoftShadows = false;
 var width = isRecording ? recordW : window.innerWidth; 
 var height = isRecording ? recordH : window.innerHeight;
+var stats;
 
 var scene, camera, renderer, light;
 var controls;
@@ -35,6 +36,11 @@ var palleteBlack = {
 var palleteObj = palleteBlack
 
 function init(){
+  stats	= new THREEx.RendererStats()
+  stats.domElement.style.position	= 'absolute'
+  stats.domElement.style.left	= '0px'
+  stats.domElement.style.bottom	= '0px'
+  document.body.appendChild( stats.domElement )
   
   textureLoader = new THREE.TextureLoader();
   
@@ -327,6 +333,8 @@ function render(){
   
   if(isRecording)
     captureRecord(renderer.domElement)
+
+  stats.update(renderer);
   
 }
 
