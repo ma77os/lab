@@ -51,7 +51,8 @@ var themes = [
     bg:"bg_red",
     roughness:isIOS ? 0.3 : 0.5, 
     metalness:0.1,
-    mapIntensity: isMobile ? (isIOS ? 2 : 6) : 12
+    //mapIntensity: isMobile ? (isIOS ? 2 : 6) : 12
+    mapIntensity: 12
   },
   {
     name:"#2",
@@ -60,14 +61,15 @@ var themes = [
     bg:"bg_black",
     roughness:isIOS ? 0.3 : 0.5, 
     metalness:0.5,
-    mapIntensity:isMobile ? (isIOS ? 2: 5) : 8
+    //mapIntensity:isMobile ? (isIOS ? 2: 5) : 8
+    mapIntensity:8
   }
 ]
 var tParam = new URLSearchParams(window.location.search).get("t")
 var themeIndex = tParam ? tParam : 1;
 var theme = themes[themeIndex];
 
-
+var canvasContainer;
 var scene, camera, renderer;
 var start;
 var mouse = {x:0, y:0, sx:0, sy:0, dx:0, dy:0};
@@ -97,7 +99,7 @@ function init(){
 
   textureLoader = new THREE.TextureLoader();
   
-  menuThemes()
+  //menuThemes()
   
   palleteObj = theme.pallete
   palleteImg = createPalleteImg(palleteObj);
@@ -133,11 +135,13 @@ function menuThemes(){
 function setup(){
   clock = new THREE.Clock(true);
 
-  document.body.className = theme.bg
+  canvasContainer = document.querySelector("#canvasContainer")
+
+  canvasContainer.className = theme.bg
   scene = new THREE.Scene(); 
 
   camera = new THREE.PerspectiveCamera(60, width / height, 1, 10000); 
-  camera.position.z = 60;
+  camera.position.z = isMobile ? 20 : 60;
 
   // controls = new THREE.OrbitControls( camera );
   // controls.rotateSpeed = 0.1;
@@ -163,7 +167,7 @@ function setup(){
   // scene.add(directionalLight)
 
 
-  document.body.appendChild(renderer.domElement)
+  canvasContainer.appendChild(renderer.domElement)
   
   if(isMobile){
     window.addEventListener("touchstart", inputstart, {passive:false})
@@ -239,10 +243,11 @@ function elements(){
   geometry = new THREE.IcosahedronBufferGeometry(width > height ? 22 : 15, icoQuality  );
 
 
-  if(isMobile)
-    loadEnv('assets/cubemaps/Basic_Studio_wavelet.jpg')
-  else
-    loadExrEnv('assets/cubemaps/Basic_Studio_wavelet.exr')
+  loadEnv('assets/cubemaps/Basic_Studio_wavelet.jpg')
+  // if(isMobile)
+  //   loadEnv('assets/cubemaps/Basic_Studio_wavelet.jpg')
+  // else
+  //   loadExrEnv('assets/cubemaps/Basic_Studio_wavelet.exr')
 
  
   icoMaterial = new MeshCustomMaterial({
@@ -307,7 +312,8 @@ function loadEnv(url){
     pmremCubeUVPacker.dispose();
 
     
-    loading.style.display = "none"
+    //loading.style.display = "none"
+    canvasContainer.style.opacity = 1
 
   } );
 }
@@ -342,7 +348,8 @@ function loadExrEnv(url){
     pmremGenerator.dispose();
     pmremCubeUVPacker.dispose();
 
-    loading.style.display = "none"
+    //loading.style.display = "none"
+    canvasContainer.style.opacity = 1
 
   } );
 }
@@ -365,8 +372,8 @@ function inputstart(e){
 function inputmove(e){
   if(isRecording) return
 
-  if(e.type == "touchmove")
-    e.preventDefault();
+  // if(e.type == "touchmove")
+  //   e.preventDefault();
 
   var x, y
   if(e.type.indexOf("mouse") >= 0){
@@ -446,12 +453,12 @@ function render(){
     rotY = mouse.x * 2;
   }else{
     
-    rotX = mouse.dy * 2 + prevRotX;
-    rotY = mouse.dx * 2 + prevRotY;
+    rotX = mouse.dy * 4 + prevRotX;
+    rotY = mouse.dx * 4 + prevRotY;
   }
   
-  rotXEase += (rotX - rotXEase) * 0.1
-  rotYEase += (rotY - rotYEase) * 0.1
+  rotXEase += (rotX - rotXEase) * 0.04
+  rotYEase += (rotY - rotYEase) * 0.04
   icoSphere.rotation.x = rotXEase;
   icoSphere.rotation.y = rotYEase;
 

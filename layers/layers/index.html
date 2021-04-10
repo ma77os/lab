@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126893854-2"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-126893854-2');
-  </script>
-
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -22,6 +11,7 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
+      background: black;
 
       margin:0;
       font-family:Arial;
@@ -45,8 +35,10 @@
       top:50%;
       left:50%;
       transform:translate(-50%, -50%);
+      display: none;
     }
     .theme_menu{
+      display: none;
       position:absolute;
       bottom:0;
       left:0;
@@ -71,6 +63,13 @@
       left:50%;
       transform:translate(-50%, -50%);
     }
+
+    #canvasContainer{
+      
+      opacity: 0;
+      transition:opacity 0.5s;
+    }
+
   </style>
 
   <script id="vertex-ico-pbr" type="x-shader/x-vertex">
@@ -424,7 +423,8 @@
 </head>
 <body>
   
-  <h5 class="loading">LOADING...</h5>
+  <!-- <h5 class="loading">LOADING...</h5> -->
+  <div id="canvasContainer"></div>
 
   <script src="vendor/three.min.js"></script>
   <script src="vendor/EXRLoader.js"></script>
