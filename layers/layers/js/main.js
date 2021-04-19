@@ -23,14 +23,14 @@ var palleteRed = {
 
 var palleteBlack = {
   colors:[
-    { c: "#101010", l:10 },
+    { c: "#090909", l:10 },
     { c: "#ed254e", l:1 },
     { c: "#f9dc5c", l:1 },
     { c: "#c2eabd", l:1 },
     { c: "#011936", l:1 },
     { c: "#465362", l:1 },
   ],
-  topColor:"#101010",
+  topColor:"#090909",
   topColorL:5,
   repeat:20,
   shuffle:true
@@ -49,7 +49,7 @@ var themes = [
   },
   {
     name:"#2",
-    nameColor:"#101010",
+    nameColor:"#090909",
     pallete:palleteBlack, 
     bg:"bg_black",
     roughness:isIOS ? 0.3 : 0.5, 
