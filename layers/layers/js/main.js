@@ -1,18 +1,11 @@
-// Using this tutorial as start point: https://www.clicktorelease.com/blog/vertex-displacement-noise-3d-webgl-glsl-three-js/
-// Inspired on incredible work of @zhestkov - https://www.instagram.com/p/BowwXcsHtbz/
-
 // settings
-
+var envAsset = 'assets/cubemaps/Basic_Studio_wavelet.jpg'
+//var envAssetEXR = 'assets/cubemaps/Basic_Studio_wavelet.exr'
 var isMobile = typeof window.orientation !== 'undefined'
 var isIOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
-// var width = 1280; 
-// var height = 1280;
 var width = window.innerWidth; 
 var height = window.innerHeight;
-var isRecording = false;
-var mouseRecord = false;
-var mouseAutoPlay = isRecording;
-var icoQuality = isMobile ? 6 : (isRecording ? 8 : 7);
+var icoQuality = isMobile ? 6 : 7;
 
 var palleteRed = {
   colors:[
@@ -30,14 +23,14 @@ var palleteRed = {
 
 var palleteBlack = {
   colors:[
-    { c: "#111111", l:10 },
+    { c: "#090909", l:10 },
     { c: "#ed254e", l:1 },
     { c: "#f9dc5c", l:1 },
     { c: "#c2eabd", l:1 },
     { c: "#011936", l:1 },
     { c: "#465362", l:1 },
   ],
-  topColor:"#111111",
+  topColor:"#090909",
   topColorL:5,
   repeat:20,
   shuffle:true
@@ -51,23 +44,25 @@ var themes = [
     bg:"bg_red",
     roughness:isIOS ? 0.3 : 0.5, 
     metalness:0.1,
-    mapIntensity: isMobile ? (isIOS ? 2 : 6) : 12
+    //mapIntensity: isMobile ? (isIOS ? 2 : 6) : 12
+    mapIntensity: 12
   },
   {
     name:"#2",
-    nameColor:"#111111",
+    nameColor:"#090909",
     pallete:palleteBlack, 
     bg:"bg_black",
     roughness:isIOS ? 0.3 : 0.5, 
     metalness:0.5,
-    mapIntensity:isMobile ? (isIOS ? 2: 5) : 8
+    //mapIntensity:isMobile ? (isIOS ? 2: 5) : 8
+    mapIntensity:8
   }
 ]
 var tParam = new URLSearchParams(window.location.search).get("t")
 var themeIndex = tParam ? tParam : 1;
 var theme = themes[themeIndex];
 
-
+var canvasContainer;
 var scene, camera, renderer;
 var start;
 var mouse = {x:0, y:0, sx:0, sy:0, dx:0, dy:0};
@@ -78,11 +73,8 @@ var skybox;
 var skyboxMaterial;
 var cubeTexture;
 var cubemapRT;
-var capturer;
-var timeToStopRecord;
 var mousePos = []
 var clock;
-var loading;
 var palleteObj;
 
 
@@ -91,13 +83,11 @@ var palleteTexture;
 
 function init(){
 
-  loading = document.querySelector(".loading")
-
   start = performance.now();
 
+  window.onmessage = onParentMessage
+
   textureLoader = new THREE.TextureLoader();
-  
-  menuThemes()
   
   palleteObj = theme.pallete
   palleteImg = createPalleteImg(palleteObj);
@@ -105,10 +95,7 @@ function init(){
 
   
   setup()
-  elements()  
-
-  if(isRecording)
-    setupRecord(30, 60)
+  elements()
 
 
   render()
@@ -116,28 +103,26 @@ function init(){
 
 }
 
-function menuThemes(){
-  var menuEl = document.createElement("div")
-  menuEl.className = "theme_menu"
-  document.body.appendChild(menuEl);
-  for(var i = 0; i < themes.length; i++){
-    var el = document.createElement("a");
-    el.className = "theme_btn"
-    el.innerHTML = "<span>" + themes[i].name + "</span>"
-    el.style.background = themes[i].nameColor
-    el.setAttribute("href", window.location.origin + window.location.pathname + "?t="+ i)
-    menuEl.appendChild(el)
+function onParentMessage(event)
+{
+  switch (event.data) {
+    case "show":
+      show()
+      break;
   }
+  
 }
 
 function setup(){
   clock = new THREE.Clock(true);
 
-  document.body.className = theme.bg
+  canvasContainer = document.querySelector("#canvasContainer")
+
+  canvasContainer.className = theme.bg
   scene = new THREE.Scene(); 
 
   camera = new THREE.PerspectiveCamera(60, width / height, 1, 10000); 
-  camera.position.z = 60;
+  camera.position.z = isMobile ? 20 : 60;
 
   // controls = new THREE.OrbitControls( camera );
   // controls.rotateSpeed = 0.1;
@@ -163,7 +148,7 @@ function setup(){
   // scene.add(directionalLight)
 
 
-  document.body.appendChild(renderer.domElement)
+  canvasContainer.appendChild(renderer.domElement)
   
   if(isMobile){
     window.addEventListener("touchstart", inputstart, {passive:false})
@@ -239,10 +224,11 @@ function elements(){
   geometry = new THREE.IcosahedronBufferGeometry(width > height ? 22 : 15, icoQuality  );
 
 
-  if(isMobile)
-    loadEnv('assets/cubemaps/Basic_Studio_wavelet.jpg')
-  else
-    loadExrEnv('assets/cubemaps/Basic_Studio_wavelet.exr')
+  loadEnv(envAsset)
+  // if(isMobile)
+  //   loadEnv(envAsset)
+  // else
+  //   loadExrEnv(envAssetEXR)
 
  
   icoMaterial = new MeshCustomMaterial({
@@ -307,7 +293,7 @@ function loadEnv(url){
     pmremCubeUVPacker.dispose();
 
     
-    loading.style.display = "none"
+    loadingComplete()
 
   } );
 }
@@ -342,15 +328,26 @@ function loadExrEnv(url){
     pmremGenerator.dispose();
     pmremCubeUVPacker.dispose();
 
-    loading.style.display = "none"
+    loadingComplete();
 
   } );
 }
 
+function loadingComplete()
+{
+  //console.log(">LAYERS LOADING COMPLETE")
+  window.parent.postMessage("loadingComplete", "*")
+}
+
+function show()
+{
+  //console.log(">LAYERS SHOW")
+  canvasContainer.style.opacity = 1
+
+}
+
 
 function inputstart(e){
-  if(isRecording) return
-
   inputmove(e);
   mouse.dx = 0;
   mouse.dy = 0;
@@ -363,11 +360,6 @@ function inputstart(e){
 }
 
 function inputmove(e){
-  if(isRecording) return
-
-  if(e.type == "touchmove")
-    e.preventDefault();
-
   var x, y
   if(e.type.indexOf("mouse") >= 0){
     x = e.clientX;
@@ -387,13 +379,10 @@ function inputmove(e){
 }
 
 function inputend(e){
-  if(isRecording) return
-  // e.preventDefault();
 
 }
 
 function resize(){
-  if(isRecording) return; 
   width = window.innerWidth
   height = window.innerHeight
   camera.aspect = width / height;
@@ -404,9 +393,7 @@ function resize(){
 }
 
 var changed=false;
-var logged = false;
 var c = 0;
-var t = mouseRecorded.length
 var rotX = 0;
 var rotY = 0;
 var prevRotX = 0
@@ -422,41 +409,15 @@ function render(){
 
   var time = clock.getElapsedTime();
 
-  // console.log(time)
-
-
-  if(mouseRecord){
-    if(time < 30)
-      mousePos.push({x:mouse.x, y:mouse.y})
-    else{
-      if(!logged){
-        logged = true;
-        console.log(JSON.stringify(mousePos))
-      }
-    }
-  }
 
     
-  if(mouseAutoPlay){
-    c = Math.floor(time/frameTime);
-    if(c < t)
-      mouse = mouseRecorded[c];
-
-    rotX = mouse.y * 2;
-    rotY = mouse.x * 2;
-  }else{
-    
-    rotX = mouse.dy * 2 + prevRotX;
-    rotY = mouse.dx * 2 + prevRotY;
-  }
+  rotX = mouse.dy * 4 + prevRotX;
+  rotY = mouse.dx * 4 + prevRotY;
   
-  rotXEase += (rotX - rotXEase) * 0.1
-  rotYEase += (rotY - rotYEase) * 0.1
+  rotXEase += (rotX - rotXEase) * 0.04
+  rotYEase += (rotY - rotYEase) * 0.04
   icoSphere.rotation.x = rotXEase;
   icoSphere.rotation.y = rotYEase;
-
-
-  // controls.update();
 
 
   icoMaterial.uniforms[ 'time' ].value = time * 0.4
@@ -467,14 +428,9 @@ function render(){
     changed = true;
     icoMaterial.envMap = cubeRenderTarget.texture;
     icoMaterial.needsUpdate=true;
-    // skybox()
   }
 
   renderer.render(scene, camera)
-
-  
-  if(isRecording)
-    captureRecord(renderer.domElement)
 
     
   
@@ -495,34 +451,5 @@ function MeshCustomMaterial (parameters, uniforms, vertexShader, fragmentShader)
 MeshCustomMaterial.prototype = Object.create( THREE.MeshStandardMaterial.prototype );
 MeshCustomMaterial.prototype.constructor = MeshCustomMaterial;
 MeshCustomMaterial.prototype.isMeshStandardMaterial = true;
-
-
-function setupRecord(time, fps){
-  console.log("setup record")
-  capturer = new CCapture( { 
-    display:true,
-    format: 'png', 
-    quality:99, 
-    framerate:fps,
-    timeLimit:time,
-    autoSaveTime:time/3,
-    motionBlurFrames: 960 / fps
-    // motionBlurFrames: 10
-  } )
-  capturer.start()
-
-
-}
-
-function captureRecord(canvas){
-  capturer.capture(canvas)
-}
-
-function stopRecord(){
-  console.log("stopped record")
-  capturer.stop();
-  capturer.save();
-
-}
 
 window.onload = init

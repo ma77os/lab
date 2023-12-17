@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126893854-2"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-126893854-2');
-  </script>
-
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -22,6 +11,7 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
+      background: black;
 
       margin:0;
       font-family:Arial;
@@ -33,44 +23,21 @@
       background: radial-gradient(circle, #8E0000 0%, #3F0000 100%);
     }
     .bg_black{
-      background:#000000;
-      background: radial-gradient(circle, #282828 0%, #000000 100%);
+      background:#090909;
+      /* background: radial-gradient(circle, #282828 0%, #000000 100%); */
     }
     a:link, a:hover, a:visited, a:active{
       color:white;
       text-decoration: none;
     }
-    .loading{
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%, -50%);
+
+    #canvasContainer{
+      
+      opacity: 0;
+      transition:opacity 0.5s;
+      transition-delay: .5s;
     }
-    .theme_menu{
-      position:absolute;
-      bottom:0;
-      left:0;
-      padding:5px;
-      z-index: 1;
-    }
-    .theme_btn{
-      position: relative;
-      display:inline-block;
-      width:40px;
-      height:40px;
-      text-align: center;
-      border: 1px solid white;
-      font-size: 14px;
-      margin:5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .theme_btn span{
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%, -50%);
-    }
+
   </style>
 
   <script id="vertex-ico-pbr" type="x-shader/x-vertex">
@@ -424,16 +391,13 @@
 </head>
 <body>
   
-  <h5 class="loading">LOADING...</h5>
+  <div id="canvasContainer"></div>
 
   <script src="vendor/three.min.js"></script>
-  <script src="vendor/EXRLoader.js"></script>
+  <!-- <script src="vendor/EXRLoader.js"></script> -->
   <script src="vendor/EquirectangularToCubeGenerator.js"></script>
   <script src="vendor/PMREMGenerator.js"></script>
   <script src="vendor/PMREMCubeUVPacker.js"></script>
-  <script src="vendor/OrbitControls.js"></script>
-  <script src="vendor/CCapture.all.min.js"></script>
-  <script src="js/mouseRecorded.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
